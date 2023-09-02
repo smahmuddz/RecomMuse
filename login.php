@@ -1,53 +1,130 @@
-<?php 
-    include "head.php";
+<?php
+session_start();
+include "database.php";
+include "head.php";
+// Initialize error message variable
+$error_message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Validate email using regex
+    if (!preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/", $email)) {
+        $error_message = "Invalid email format";
+    } else {
+        $query = "SELECT * FROM users WHERE email = '$email'";
+        $result = $db->query($query);
+
+        if ($result->num_rows == 1) {
+            $user = $result->fetch_assoc();
+            $hashedPassword = $user['password']; // Get the hashed password from the database
+
+            if (password_verify($password, $hashedPassword)) {
+                $_SESSION['login'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                // Redirect the user to the home page or dashboard
+                header("Location: index.php");
+                exit; // Ensure immediate redirection
+            } else {
+                $error_message = "Invalid login credentials";
+            }
+        } else {
+            $error_message = "Invalid login credentials";
+        }
+    }
+}
 ?>
-<div>
-<section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5" style="margin:20px;">
-        <img src="img\disc.png" class="img-fluid" alt="Sample image">
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1" style="margin-top:20px;">
-      <h1>Sign In</h1>
-        <form>
-          <!-- Email input -->
-          <div class="form-outline mb-4">
-            <input type="email" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid email address" />
-            <label class="form-label" for="form3Example3">Email address</label>
-          </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .page-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .image-container {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        .rotating-image {
+        animation: spin 2s linear infinite;
+    }
 
-          <!-- Password input -->
-          <div class="form-outline mb-3">
-            <input type="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="Enter password" />
-            <label class="form-label" for="form3Example4">Password</label>
-          </div>
+    /* Define the animation keyframes for rotation */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>
+</head>
+<body>
+<div class="page-container">
+    <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5 col-xl-4 image-container" style="margin-right: 10px;">
+                    <img src="img/disc.png" class="img-fluid rotating-image" alt="Sample image">
+                </div>
 
-          <div class="d-flex justify-content-between align-items-center">
-            <!-- Checkbox -->
-            <div class="form-check mb-0">
-              <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-              <label class="form-check-label" for="form2Example3">
-                Remember me
-              </label>
+            <div class="col-md-6 col-lg-5 col-xl-4 form-container">
+                <div class="text-center" style="margin-bottom: 20px;">
+                    <h1>Sign In</h1>
+                    <img src="img/favicon.png" alt="" srcset="">
+                </div>
+                <!-- Display the error message within the form -->
+                <div class="text-danger text-center"><?php echo $error_message; ?></div>
+                <form action="" method="post">
+                    <!-- Email input -->
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your Email" required />
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required />
+                    </div>
+                        <div class="d-flex justify-content-between align-items-center text-left">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-0">
+                                <input class="form-check-input" type="checkbox" value="" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">
+                                    Remember me
+                                </label>
+                            </div>
+                            <a href="#!" class="text-body">Forgot password?</a>
+                        </div>
+
+                        <div class="text-center mt-4 text-left"> <!-- Added the text-left class -->
+                            <button type="submit" class="btn btn-danger">Login</button>
+                            <p class="mt-2">Don't have an account? <a href="register.php" class="text-danger">Register</a></p>
+                        </div>
+                </div>
+
+                </form>
             </div>
-            <a href="#!" class="text-body">Forgot password?</a>
-          </div>
 
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="button" class="btn "
-              style="padding-left: 2.5rem; padding-right: 2.5rem; background-color:#fd3c4f; color:white;font-weight: bolder;">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
-                class="link-danger">Register</a></p>
-          </div>
-
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  
-<?php 
-    include "footer.php";
-?>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
