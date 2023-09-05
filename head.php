@@ -44,7 +44,7 @@ include 'database.php';
                     <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="artists.php">Artists</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="recommended_feed.php">Discover</a>
+                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="discover.php">Discover</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">

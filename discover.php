@@ -22,40 +22,55 @@ include "head.php";
         $musicData = array();
         // Fetch music data from the database
         $query = "
-        SELECT distinct
-            songs.id,
-            songs.name,
-            songs.artist,
-            songs.album,
-            songs.music,
-            songs.coverImage,
-            songs.genre,
-            songs.language,
-            IFNULL(similarity.combined_similarity, 0) AS combined_similarity
-        FROM
-            songs
-        LEFT JOIN (
-            SELECT
-                s1.id AS song1_id,
-                s2.id AS song2_id,
-                (
-                    (0.3 * IFNULL(GREATEST(0, (COUNT(DISTINCT s1.genre, s2.genre) / COUNT(DISTINCT s1.genre, s2.genre, s1.language, s2.language))), 0))
-                    + (0.3 * IFNULL(GREATEST(0, (COUNT(DISTINCT s1.language, s2.language) / COUNT(DISTINCT s1.genre, s2.genre, s1.language, s2.language))), 0))
-                    + (0.4 * IFNULL(GREATEST(0, (COUNT(DISTINCT ls1.song_id, ls2.song_id) / COUNT(DISTINCT ls1.song_id, ls2.song_id, ls1.user_id, ls2.user_id))), 0))
-                ) AS combined_similarity
-            FROM
-                songs s1
-            JOIN
-                songs s2 ON s1.id < s2.id
-            LEFT JOIN
-                liked_songs ls1 ON s1.id = ls1.song_id AND ls1.liked = 1
-            LEFT JOIN
-                liked_songs ls2 ON s2.id = ls2.song_id AND ls2.liked = 1
-            GROUP BY
-                s1.id, s2.id
-        ) AS similarity ON songs.id = similarity.song1_id
-        ORDER BY
-            combined_similarity DESC;
+SELECT
+    songs.id,
+    songs.name,
+    songs.artist,
+    songs.album,
+    songs.music,
+    songs.coverImage,
+    songs.genre,
+    songs.language,
+    MAX(
+        IFNULL(similarity.combined_similarity, 0) -
+        IFNULL(unliked_similarity.unliked_similarity, 0)
+    ) AS combined_similarity
+FROM songs
+LEFT JOIN (
+    SELECT
+        s1.id AS song1_id,
+        s2.id AS song2_id,
+        (
+            (0.2 * IFNULL(GREATEST(0, (COUNT(DISTINCT s1.genre, s2.genre) / COUNT(DISTINCT s1.genre, s2.genre, s1.language, s2.language))), 0))
+            + (0.4 * IFNULL(GREATEST(0, (COUNT(DISTINCT s1.language, s2.language) / COUNT(DISTINCT s1.genre, s2.genre, s1.language, s2.language))), 0))
+            + (0.4 * IFNULL(GREATEST(0, (COUNT(DISTINCT ls1.song_id, ls2.song_id) / COUNT(DISTINCT ls1.song_id, ls2.song_id, ls1.user_id, ls2.user_id))), 0))
+        ) AS combined_similarity
+    FROM songs s1
+    JOIN songs s2 ON s1.id < s2.id
+    LEFT JOIN liked_songs ls1 ON s1.id = ls1.song_id AND ls1.liked = 1
+    LEFT JOIN liked_songs ls2 ON s2.id = ls2.song_id AND ls2.liked = 1
+    WHERE s1.id <> s2.id -- Ensure that we don't consider the same song pair twice
+    GROUP BY s1.id, s2.id
+) AS similarity ON songs.id = similarity.song1_id
+LEFT JOIN (
+    SELECT
+        s1.id AS song1_id,
+        s2.id AS song2_id,
+        (
+            (0.2 * IFNULL(GREATEST(0, (COUNT(DISTINCT s1.genre, s2.genre) / COUNT(DISTINCT s1.genre, s2.genre, s1.language, s2.language))), 0))
+            + (0.4 * IFNULL(GREATEST(0, (COUNT(DISTINCT s1.language, s2.language) / COUNT(DISTINCT s1.genre, s2.genre, s1.language, s2.language))), 0))
+            + (0.4 * IFNULL(GREATEST(0, (COUNT(DISTINCT ls1.song_id, ls2.song_id) / COUNT(DISTINCT ls1.song_id, ls2.song_id, ls1.user_id, ls2.user_id))), 0))
+        ) AS unliked_similarity
+    FROM songs s1
+    JOIN songs s2 ON s1.id < s2.id
+    LEFT JOIN liked_songs ls1 ON s1.id = ls1.song_id AND ls1.unliked = 1
+    LEFT JOIN liked_songs ls2 ON s2.id = ls2.song_id AND ls2.unliked = 1
+    WHERE s1.id <> s2.id -- Ensure that we don't consider the same song pair twice
+    GROUP BY s1.id, s2.id
+) AS unliked_similarity ON songs.id = unliked_similarity.song1_id
+GROUP BY songs.id, songs.name, songs.artist, songs.album, songs.music, songs.coverImage, songs.genre, songs.language
+ORDER BY combined_similarity DESC;
+
         ";
         $result = $db->query($query);
         // Check if the query was successful
