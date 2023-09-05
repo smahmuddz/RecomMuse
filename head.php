@@ -35,21 +35,24 @@ include 'database.php';
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" style="color:#ffffff; " aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link active" style="color:#ffffff; " aria-current="page" href="index.php">হোম</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="albums.php">Albums</a>
+                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="albums.php">অ্যালবাম</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="artists.php">Artists</a>
+                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="artists.php">সঙ্গীতশিল্পী</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="discover.php">Discover</a>
+                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="discover.php">মিউজিক ফিড</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" style="color:#ffffff;" aria-current="page" href="playlist.php">প্লেলিস্ট</a>
                 </li>
             </ul>
             <form class="d-flex" role="search">
                 <?php if(empty($_SESSION['login'])):?>
-                    <a href="login.php" class="btn btn-light mx-2 bp-4" type="button">Login</a>
+                    <a href="login.php" class="btn btn-light mx-2 bp-4" type="button">লগিন</a>
                 <?php elseif(!empty($_SESSION['login'])): ?>
                     <!-- Add the user profile button here -->
                     <a href="my_profile.php" class="btn btn-outline-light mx-2" type="button">
@@ -65,12 +68,12 @@ include 'database.php';
                             ?>
                         </div>
                     </a>
-                <a href="logout.php" class="btn btn-light mx-4 bp-2" type="button">Log <br>Out</a>
+                <a href="logout.php" class="btn btn-light mx-4" style="height:70%; margin-top:8px;" type="button">লগ আউট</a>
                 <?php endif; ?>           
           </form>
           <form class="d-flex" method="POST" action="feed2.php">
-                <input class="form-control me-2" type="search" name="searchQuery" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i>Search</button>
+                <input class="form-control me-2" type="search" name="searchQuery" placeholder="পছন্দের গান সার্চ করুন" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i>সার্চ</button>
             </form> 
         </div>
     </div>

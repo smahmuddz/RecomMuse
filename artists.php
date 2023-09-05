@@ -35,7 +35,7 @@ include "database.php";
     ?>
 
     <div class="container mt-5">
-        <h3 class="mb-2" style="color:red;">Artists</h3>
+        <h3 class="mb-4" style="color:red;">সঙ্গীতশিল্পী</h3>
         <div class="row justify-content-center"> 
             <div class="artist-container">
                 <?php foreach ($artists as $artist): ?>
@@ -44,7 +44,7 @@ include "database.php";
                             <img src="<?php echo $artist['image']; ?>" class="card-img-top" alt="<?php echo $artist['name']; ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $artist['name']; ?></h5>
-                                <a href="artistpage.php?artist=<?php echo urlencode($artist['name']); ?>" class="btn btn-danger">View Artist</a>
+                                <a href="artistpage.php?artist=<?php echo urlencode($artist['name']); ?>" class="btn btn-danger">গান</a>
                             </div>
                         </div>
                     </div>

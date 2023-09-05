@@ -38,7 +38,7 @@ include "database.php";
     ?>
 
     <div class="container mt-5">
-        <h3 class="mb-2" style="color:red;">Released Albums</h3>
+        <h3 class="mb-5" style="color:red;">অ্যালবাম</h3>
         <div class="row justify-content-center"> <!-- Center the columns -->
             <div class="album-container">
                 <?php foreach ($albums as $album): ?>
@@ -47,9 +47,9 @@ include "database.php";
                             <img src="<?php echo $album['album_cover_link']; ?>" class="card-img-top" alt="<?php echo $album['album_name']; ?>">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $album['album_name']; ?></h5>
-                                <a href="albumfeed.php?album=<?php echo urlencode($album['album_name']); ?>" class="btn btn-danger">View Songs</a>
+                                <a href="albumfeed.php?album=<?php echo urlencode($album['album_name']); ?>" class="btn btn-danger">গান</a>
                             </div>
-                        </div>
+                </div>
                     </div>
                 <?php endforeach; ?>
             </div>

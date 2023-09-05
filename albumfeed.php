@@ -31,10 +31,10 @@ include "head.php";
                     $musicData[] = $row;
                 }
             } else {
-                echo "Error fetching music data: " . $db->error;
+                echo "ডাটাবেজ এরর: " . $db->error;
             }
         } else {
-            echo "Album parameter not set.";
+            echo "কোনো অ্যালবাম সিলেক্ট করা নেই।";
         }
         ?>
         
@@ -50,7 +50,7 @@ include "head.php";
             </div>
         <?php } else { ?>
             <div class="main-current">
-                <p>No music data available for this album.</p>
+                <p>এই অ্যালবাম এর কোনো মিউজিক ডেটা পাওয়া যায়নি</p>
             </div>
         <?php } ?>
 

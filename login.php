@@ -83,36 +83,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <img src="img/disc.png" class="img-fluid rotating-image" alt="Sample image">
                 </div>
 
-            <div class="col-md-6 col-lg-5 col-xl-4 form-container">
+            <div class="col-md-6 col-lg-4 col-xl-3 form-container ml-5">
                 <div class="text-center" style="margin-bottom: 20px;">
-                    <h1>Sign In</h1>
-                    <img src="img/favicon.png" alt="" srcset="">
+                    <h1>আপনাকে স্বাগতম</h1>
+                    
+                    <img style="margin-bottom:10px;" src="img/favicon.png" alt="" srcset="">
+                    <p>আপনার পছন্দের গান রেকমেন্ডেশন পেতে এখনি লগিন করুন।</p>
                 </div>
                 <!-- Display the error message within the form -->
+
                 <div class="text-danger text-center"><?php echo $error_message; ?></div>
                 <form action="" method="post">
                     <!-- Email input -->
                     <div class="form-group">
-                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter your Email" required />
+                        <input type="email" id="email" name="email" class="form-control" placeholder="ই-মেইল" required />
                     </div>
                     <!-- Password input -->
                     <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required />
+                        <input type="password" id="password" name="password" class="form-control" placeholder="পাসওয়ার্ড" required />
                     </div>
                         <div class="d-flex justify-content-between align-items-center text-left">
                             <!-- Checkbox -->
                             <div class="form-check mb-0">
                                 <input class="form-check-input" type="checkbox" value="" id="remember" name="remember">
                                 <label class="form-check-label" for="remember">
-                                    Remember me
+                                    রিমেম্বার মি
                                 </label>
                             </div>
-                            <a href="#!" class="text-body">Forgot password?</a>
+                            <a href="#!" class="text-body">ফরগট পাসওয়ার্ড?</a>
                         </div>
 
                         <div class="text-center mt-4 text-left"> <!-- Added the text-left class -->
-                            <button type="submit" class="btn btn-danger">Login</button>
-                            <p class="mt-2">Don't have an account? <a href="register.php" class="text-danger">Register</a></p>
+                            <button type="submit" class="btn btn-danger">লগিন</button>
+                            <p class="mt-4">আপনার কী একাউন্ট নেই? <a href="register.php" class="text-danger">রেজিস্টার
+                            </a></p>
                         </div>
                 </div>
 

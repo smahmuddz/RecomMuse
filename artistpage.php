@@ -13,7 +13,7 @@ include "head.php";
 
 <body>
     <div class="container mt-5">
-        <h3 class="mb-2" style="color:red;">Artist Page</h3>
+        <h3 class="mb-2" style="color:red;">সঙ্গীতশিল্পী</h3>
         <?php
         include "database.php";
         $musicData = array();
@@ -28,7 +28,7 @@ include "head.php";
             if ($result && $result->num_rows > 0) {
                 $artistInfo = $result->fetch_assoc();
             } else {
-                echo "Error fetching artist data: " . $db->error;
+                echo "ডাটাবেজ এরর " . $db->error;
             }
 
             // Fetch songs by the selected artist
@@ -40,10 +40,10 @@ include "head.php";
                     $musicData[] = $row;
                 }
             } else {
-                echo "Error fetching music data: " . $db->error;
+                echo "ডাটাবেজ এরর " . $db->error;
             }
         } else {
-            echo "Artist parameter not set.";
+            echo "আর্টিস্ট সেট করা নেই।";
         }
         ?>
 
@@ -69,7 +69,7 @@ include "head.php";
                     </div>
                 <?php } else { ?>
                     <div class="main-current">
-                        <p>No music data available for this artist.</p>
+                        <p>এই সঙ্গীতশিল্পীর কোনো গান পাওা যায়নি।</p>
                     </div>
                 <?php } ?>
 
