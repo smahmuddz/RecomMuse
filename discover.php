@@ -115,10 +115,15 @@ ORDER BY combined_similarity DESC;
                 <div class="current-info">
                     <h1><?php echo $musicData[0]['name']; ?></h1>
                     <p><?php echo $musicData[0]['artist']; ?></p>
-                    <div class="current-buttons m-4" >
-                        <button class="btn _thumbs-up <?php echo $likedStatus ? 'clicked' : ''; ?>"><i class="fas fa-thumbs-up"></i></button>
-                        <button class="btn _thumbs-down <?php echo $unlikedStatus ? 'clicked' : ''; ?>"><i class="fas fa-thumbs-down"></i></button>
-                    </div>
+                   <?php
+                    if (isset($_SESSION['login'])) {
+                        echo '<div class="current-buttons m-4">';
+                        echo '<button class="btn _thumbs-up ' . ($likedStatus ? 'clicked' : '') . '"><i class="fas fa-thumbs-up"></i></button>';
+                        echo '<button class="btn _thumbs-down ' . ($unlikedStatus ? 'clicked' : '') . '"><i class="fas fa-thumbs-down"></i></button>';
+                        echo '</div>';
+                    }
+                    ?>
+
                 </div>
             </div>
         <?php } ?>
