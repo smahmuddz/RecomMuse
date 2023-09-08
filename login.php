@@ -2,13 +2,11 @@
 session_start();
 include "database.php";
 include "head.php";
-// Initialize error message variable
 $error_message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
     // Validate email using regex
     if (!preg_match("/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/", $email)) {
         $error_message = "Invalid email format";
@@ -18,14 +16,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result->num_rows == 1) {
             $user = $result->fetch_assoc();
-            $hashedPassword = $user['password']; // Get the hashed password from the database
+            $hashedPassword = $user['password']; 
 
             if (password_verify($password, $hashedPassword)) {
                 $_SESSION['login'] = true;
                 $_SESSION['user_id'] = $user['id'];
-                // Redirect the user to the home page or dashboard
                 header("Location: index.php");
-                exit; // Ensure immediate redirection
+                exit; 
             } else {
                 $error_message = "Invalid login credentials";
             }
@@ -68,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         animation: spin 2s linear infinite;
     }
 
-    /* Define the animation keyframes for rotation */
     @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -90,20 +86,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <img style="margin-bottom:10px;" src="img/favicon.png" alt="" srcset="">
                     <p>আপনার পছন্দের গান রেকমেন্ডেশন পেতে এখনি লগিন করুন।</p>
                 </div>
-                <!-- Display the error message within the form -->
+              
 
                 <div class="text-danger text-center"><?php echo $error_message; ?></div>
                 <form action="" method="post">
-                    <!-- Email input -->
+                    
                     <div class="form-group">
                         <input type="email" id="email" name="email" class="form-control" placeholder="ই-মেইল" required />
                     </div>
-                    <!-- Password input -->
                     <div class="form-group">
                         <input type="password" id="password" name="password" class="form-control" placeholder="পাসওয়ার্ড" required />
                     </div>
                         <div class="d-flex justify-content-between align-items-center text-left">
-                            <!-- Checkbox -->
                             <div class="form-check mb-0">
                                 <input class="form-check-input" type="checkbox" value="" id="remember" name="remember">
                                 <label class="form-check-label" for="remember">

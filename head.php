@@ -54,15 +54,16 @@ include 'database.php';
                 <?php if(empty($_SESSION['login'])):?>
                     <a href="login.php" class="btn btn-light mx-2 bp-4" type="button">লগিন</a>
                 <?php elseif(!empty($_SESSION['login'])): ?>
-                    <!-- Add the user profile button here -->
+                    <!--profile button -->
                     <a href="my_profile.php" class="btn btn-outline-light mx-2" type="button">
                         <div class="d-flex align-items-center">
-                            <!-- You can replace 'profile_image.jpg' with the actual path to the user's profile image -->
                             <img src="<?php echo 'img/user/' . $image; ?>" alt="Profile Image" width="30" height="30" style="border-radius: 50%; margin-right: 5px;">
+                            
+                            <!-- I just wanted to show the first name in the dashboard button -->
                             <?php
-                            $nameParts = explode(' ', $username); // Split the string by space
+                            $nameParts = explode(' ', $username); 
                             if (count($nameParts) > 0) {
-                                $firstName = $nameParts[0]; // Get the first part (first name)
+                                $firstName = $nameParts[0]; 
                                 echo $firstName;
                             }
                             ?>

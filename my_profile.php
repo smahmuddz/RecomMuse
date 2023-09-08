@@ -55,8 +55,8 @@ if(isset($_SESSION['login'])){
 
                 <div class="p-2 mt-2 bg-danger d-flex justify-content-between rounded text-white stats">
                     <div class="d-flex flex-column">
-                        Liked Music Count: <span class="number2"><?php echo $totalLiked; ?></span>
-                        Unliked Music Count: <span class="number2"><?php echo $totalUnliked; ?></span>
+                        পছন্দের গানের সংখ্যা: <span class="number2"><?php echo $totalLiked; ?></span>
+                        অপছন্দের গানের সংখ্যা: <span class="number2"><?php echo $totalUnliked; ?></span>
                     </div>
                 </div>
             </div>                    
