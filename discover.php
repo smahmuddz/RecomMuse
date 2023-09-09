@@ -80,7 +80,7 @@ include "head.php";
                 $musicData[] = $row;
             }
         } else {
-            echo "User not logged in <br>" ;
+            echo "User not logged in ." ;
         }
 
         $likedStatus = false;
